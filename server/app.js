@@ -1,23 +1,41 @@
-import Koa from 'koa'
-import cors from '@koa/cors'
-import jwt  from 'jsonwebtoken'
-import fs from 'fs'
-import { resolve } from 'path'
-import router from './routers'
-import koaWebpack from 'koa-webpack'
+import Koa from 'koa';
+import cors from '@koa/cors';
+import connect from './database';
+import { resolve, join } from 'path'
+// import router from './routers';
+
+import R from 'ramda'
 
 
-const app = new Koa()
-app.use(cors())
+const MIDDLEWARES = ['router']
 
-// const ssh = fs.readFileSync(resolve(__dirname,'./config/ssh'))
-// const token = jwt.sign({one:'lyl'},ssh,{ algorithm: 'HS256'},(err,token) => {
-// 	console.log(token)
-// })
-app
-  .use(router.routes())
-  .use(router.allowedMethods());
 
-app.listen(8000)
+const useMiddlewraes = (app) => {
+	R.map(
+		R.compose(
+			R.forEachObjIndexed(
+				initWith => console.log(initWith)
+			),
+			require,
+			name => resolve(__dirname, `./middiewares/${name}`)
 
-console.log('listen in 8000')
+		)
+	)(MIDDLEWARES)
+}
+
+(async () => {
+	try {
+		// await connect()
+		const app = new Koa()
+		await useMiddlewraes(app)
+		app.use(cors())
+
+		// app
+		// .use(router.routes())
+		// .use(router.allowedMethods());
+
+		app.listen(8000)
+
+		console.log('server listen in 8000')
+	} catch (e) {}
+})()

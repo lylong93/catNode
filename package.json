@@ -11,10 +11,13 @@
   "license": "ISC",
   "dependencies": {
     "@koa/cors": "^2.2.2",
+    "bcrypt": "^3.0.0",
     "jsonwebtoken": "^8.3.0",
     "koa": "^2.5.2",
     "koa-router": "^7.4.0",
-    "nodemon": "^1.18.3"
+    "mongoose": "^5.2.7",
+    "nodemon": "^1.18.3",
+    "ramda": "^0.25.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

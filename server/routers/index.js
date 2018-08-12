@@ -1,26 +1,34 @@
-import Router  from 'koa-router'
-
-import jwt  from 'jsonwebtoken'
+import Router from 'koa-router'
+import mongoose from 'mongoose'
+import jwt from 'jsonwebtoken'
 import fs from 'fs'
-import { resolve } from 'path'
 import koaWebpack from 'koa-webpack'
 
-const router = new Router()
-// let token = '';
-const token = jwt.sign({one:'lyl'},'ssh',{ algorithm: 'HS256',expiresIn:'120'})
+import { User } from '../database/model.js'
 
-router.get('/login',(ctx,next) => {
-	console.log(ctx.header)
+import { signToken, verifyToken } from '../utils/token'
+
+const router = new Router()
+
+
+router.get('/login', (ctx, next) => {
+
+	const lyl = new User({ username: 'ppp', password: '123', })
+
+	lyl.save(function (err, data) {
+		if (err) {
+			console.log(err)
+		} else {
+			console.log(data)
+		}
+	})
 	ctx.body = 'ok'
 })
-router.get('/token',(ctx,next) => {
-	console.log(token)
-	jwt.verify(token, 'ssh',(err,decoded) => {
-		console.log(err)
-		console.log(decoded) 
-	});
 
-	ctx.body = 'token'
-
+router.get('/token', async (ctx, next) => {
+	// const user = await User.findOne({ username: 'lyl' })
+	// const { password } = user
+	// console.log(password)
+	// user.compare('123456', password)
 })
 export default router
