@@ -3,8 +3,7 @@ mongoose.Promise = global.Promise
 
 const dbUrl = 'mongodb://localhost:27017/test';
 
-export default (
-	connectdb => {
+export const connectdb = () => {
 		return new Promise((resolve, reject) => {
 
 			mongoose.connect(dbUrl, { useNewUrlParser: true })
@@ -20,4 +19,3 @@ export default (
 			})
 		})
 	}
-)

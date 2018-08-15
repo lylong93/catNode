@@ -1,11 +1,10 @@
 import Koa from 'koa';
 import cors from '@koa/cors';
-import connect from './database';
-import { resolve, join } from 'path'
+import { resolve } from 'path'
 
 import R from 'ramda'
 
-const MIDDLEWARES = ['router']
+const MIDDLEWARES = ['db','router']
 
 const useMiddlewraes = (app) => {
 	R.map(
@@ -19,11 +18,11 @@ const useMiddlewraes = (app) => {
 	)(MIDDLEWARES)
 }
 
-async function ok() {
+(async ()=> {
 	try {
-		// await connect()
 		const app = new Koa()
 		await useMiddlewraes(app)
+		
 		app.use(cors())
 		app.listen(8000)
 
@@ -31,5 +30,4 @@ async function ok() {
 	} catch (e) {
 		console.log(e)
 	}
-}
-ok()
+})()

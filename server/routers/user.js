@@ -1,11 +1,15 @@
 import { controller, get} from '../utils/decorator.js'
-// import { getAllMovie } from '../controls/movie.js'
-// console.log(controller)
-@controller('/api/movie')
-export class movieController {
-	@get('/all')
+import { register,login } from '../controls/user.js'
+
+@controller('/api/user')
+export class userController {
+	@get('/register')
 	async getMovie(ctx, next) {
-		// const movie = await getAllMovie()
+		// const movie = await login()
+		ctx.body = 'movie'
+	}
+	@get('/login')
+	async getMovie(ctx,next) {
 		ctx.body = 'movie'
 	}
 }
