@@ -8,6 +8,6 @@ export const signToken = (data) => {
 	return token
 }
 
-export const verifyToken = (data) => {
-	jwt.sign(data, key)
+export const verifyToken = (data,cd) => {
+	return jwt.verify(data, key,cd)
 }

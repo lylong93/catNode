@@ -5,11 +5,12 @@ import { register,login } from '../controls/user.js'
 export class userController {
 	@get('/register')
 	async getMovie(ctx, next) {
-		// const movie = await login()
-		ctx.body = 'movie'
+		const user = await login()
+		ctx.body = user
 	}
 	@get('/login')
 	async getMovie(ctx,next) {
-		ctx.body = 'movie'
+		const user = await login()
+		ctx.body = user
 	}
 }
