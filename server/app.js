@@ -4,7 +4,7 @@ import { resolve } from 'path'
 
 import R from 'ramda'
 
-const MIDDLEWARES = ['db','router']
+const MIDDLEWARES = ['router','db']
 
 const useMiddlewraes = (app) => {
 	R.map(
@@ -21,9 +21,9 @@ const useMiddlewraes = (app) => {
 (async ()=> {
 	try {
 		const app = new Koa()
-		await useMiddlewraes(app)
-		
 		app.use(cors())
+		await useMiddlewraes(app)
+	
 		app.listen(8000)
 
 		console.log('server listen in 8000')
@@ -31,3 +31,13 @@ const useMiddlewraes = (app) => {
 		console.log(e)
 	}
 })()
+		// router.get('/',(ctx,next) => {
+		// 	ctx.body = 'no'
+		// 	console.log(ctx.body)
+		// 	next()
+		// },(ctx)=> {
+
+		// 	ctx.body= 'ok'
+		// 	console.log(ctx.body)
+		// 	}
+		// )
