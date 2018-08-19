@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken'
+import { tokenConfig } from '../config'
 
-const key = 'eatNode'
-const expiresIn = '120'
+const {key,algorithm,expiresIn} = tokenConfig
 
 export const signToken = (data) => {
-	const token = jwt.sign(data, key, { algorithm: 'HS256', expiresIn, })
+	const token = jwt.sign(data, key, { algorithm})
 	return token
 }
 
-export const verifyToken = (data,cd) => {
-	return jwt.verify(data, key,cd)
+export const veriToken = (data) => {
+	return jwt.verify(data, key)
 }

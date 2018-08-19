@@ -3,7 +3,7 @@ import _ from 'loadsh'
 import glob  from 'glob'
 import { resolve } from  'path'
 
-import jwt from 'jsonwebtoken'
+import {veriToken} from './token'
 //
 const symbolPrefix = Symbol('prefix')
 const routerMap = new Map()
@@ -19,10 +19,10 @@ export class Route {
   init (){
     glob.sync(resolve(this.apiPath, './*.js')).forEach(require)
     for (let [conf,controller] of routerMap) {
-       console.log(controller)
+
       const contollers = isArray(controller)
       const prefixPath = conf.target[symbolPrefix]
-      if (prefixPath) prefixPath = noramlizePath(prefixPath)
+      if (prefixPath) prefixPath = _noramlizePath(prefixPath)
       const routerPath = prefixPath + conf.path
       this.router[conf.method] (routerPath, ...contollers)
 
@@ -31,9 +31,9 @@ export class Route {
     this.app.use(this.router.allowedMethods())
   }
 }
-const noramlizePath = path => path.startsWith('/')?path:`/${path}`
+const _noramlizePath = path => path.startsWith('/')?path:`/${path}`
 
-const router = conf => (target,key) => {
+const _router = conf => (target,key) => {
 
     routerMap.set({
         target,
@@ -44,36 +44,30 @@ export const controller = path => target=> {
   target.prototype[symbolPrefix] = path
 }
 
-export const get = path => router({
+export const get = path => _router({
   method:'get',
   path
 })
-
-
-
-// const decorate = (args, middleware) => {
-//   let [ target, key, descriptor ] = args
-//   target[key] = isArray(target[key])
-//   target[key].unshift(middleware)
-
-//   return descriptor
-// }
-// const convert = middleware => (...args) => decorate(args, middleware)
-
-// export const required = rules => convert(async (ctx, next) => {
-//   console.log(ctx)
-
-//   await next()
-// })
-
+export const post = path => _router({
+  method:'post',
+  path
+})
 
 const _token = async (ctx,next) => {
-  if(!ctx.Authorization) {
-    ctx.body = 'no Authorization'
-  } else {
-    await next()
+  const {authorization} = ctx.header
+
+  try {
+    veriToken(authorization)
+    console.log(veriToken(authorization))
+    ctx.state.username = 'lyl'
+    next()
+  }
+  catch(err) {
+    console.log()
+    next()
   }
 }
+
 export const verifyToken = (target,key) => {
    target[key] = isArray(target[key])
    target[key].unshift(_token)

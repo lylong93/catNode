@@ -1,6 +1,7 @@
 import Koa from 'koa';
 import cors from '@koa/cors';
 import { resolve } from 'path'
+import bodyParser from 'koa-bodyparser'
 
 import R from 'ramda'
 
@@ -21,23 +22,14 @@ const useMiddlewraes = (app) => {
 (async ()=> {
 	try {
 		const app = new Koa()
+		app.use(bodyParser())
 		app.use(cors())
+		
 		await useMiddlewraes(app)
-	
 		app.listen(8000)
 
 		console.log('server listen in 8000')
-	} catch (e) {
-		console.log(e)
+	} catch (err) {
+		console.log(err)
 	}
 })()
-		// router.get('/',(ctx,next) => {
-		// 	ctx.body = 'no'
-		// 	console.log(ctx.body)
-		// 	next()
-		// },(ctx)=> {
-
-		// 	ctx.body= 'ok'
-		// 	console.log(ctx.body)
-		// 	}
-		// )

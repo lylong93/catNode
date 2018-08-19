@@ -1,5 +1,5 @@
-// token
-const key = 'eatNode'
-const expiresIn = '120'
-const algorithm  = 'HS256'
-//
+export const tokenConfig = {
+	'key':'eatNode',
+	'expiresIn':'120',
+	'algorithm': 'HS256'
+}

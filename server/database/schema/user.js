@@ -26,6 +26,6 @@ userSchema.pre('save', function (next) {
 
 userSchema.methods.compare = (password, hash) => {
 	const match = bcrypt.compareSync(password, hash);
-	console.log(match)
+	return match
 }
 export default userSchema
