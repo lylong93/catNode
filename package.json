@@ -16,10 +16,12 @@
     "koa": "^2.5.2",
     "koa-bodyparser": "^2.5.0",
     "koa-router": "^7.4.0",
+    "koa2-cors": "^2.0.6",
     "loadsh": "^1.0.1",
     "mongoose": "^5.2.7",
     "nodemon": "^1.18.3",
-    "ramda": "^0.25.0"
+    "ramda": "^0.25.0",
+    "socket.io": "^2.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

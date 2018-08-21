@@ -26,4 +26,10 @@ export class userController {
 		console.log(ctx.username)
 		ctx.body = ctx
 	}
+
+
+	@get('/chat')	
+	async test(ctx,next) {
+		ctx.body = 'chat'
+	}
 }
