@@ -15,7 +15,6 @@ export class userController {
 	@post('/login')
 	async login(ctx,next) {
 		const user = ctx.request.body
-		console.log(user)
 		const data = await login(user)
 		ctx.body = data
 	}

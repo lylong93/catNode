@@ -16,12 +16,17 @@ export const register = async (user) => {
 }
 export const login = async (user) => {
 	const {name,password}  = user
-	console.log(name)
+
 	const _user = await User.findOne({'username':name})
+
+	if(!_user) {
+		return {'success':1,'msg':'无此用户'}	
+	}
 	const data = _user.compare(password,_user.password)
+
 	if(data) {
 		const token = await signToken(user)
-		return {'success':1,'token':token}
+		return {'success':0,'token':token}
 	}else {
 		return {'success':1,'msg':'登录失败'}
 	}
