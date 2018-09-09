@@ -2,16 +2,18 @@ import socket from 'socket.io'
 
 export default (server)=> {
 		const io = socket(server)
+		let arr = ['lyl','123','1','3','5']
 		let num = 0
 		io.on('connection', async (socket)=> {
+			socket.id = arr[num]
 			num++
-			socket.id = num
 			console.log(socket.id)
-			socket.on('news', (name,fn)=> {
-				// console.log(io.sockets)
-				io.emit('server','im server')
+			socket.on('news', (data,fn)=> {
+				console.log(data)
 				fn('woot');
+				socket.emit('server','surprise');
 			});
-			socket.emit('server','im server msg')
+			
 		});	
+		// io.sockets.socket('123').emit('server', ''); 
 }
