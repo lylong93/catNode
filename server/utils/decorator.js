@@ -58,12 +58,10 @@ const _token = async (ctx,next) => {
   try {
     const info = await veriToken(authorization)
     ctx.state.user = info.name
-    console.log(ctx.body)
-    ctx.body = 'ctx.body'
-    next()
+    await next()
   }
   catch(err) {
-    next()
+    await next()
   }
 }
 

@@ -7,8 +7,7 @@ export class userController {
 	@verifyToken
 	async lll(ctx,next) {
 		const data = await getlist(ctx.state.user)
-		ctx.body = 'data'
-		console.log(ctx.body)
+		ctx.body = data
 	}
 
 	@post('/send')
