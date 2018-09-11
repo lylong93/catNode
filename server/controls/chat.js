@@ -1,6 +1,6 @@
 import {signToken,veriToken} from '../utils/token'
 import {stateConfig} from '../config'
-import {Chat} from '../database/model.js'
+import {Chat,User} from '../database/model.js'
 
 const {SUCCESS,ERR,SERERR} = stateConfig
 
@@ -14,4 +14,9 @@ export const register = async (user) => {
 	catch(err) {
 		 return {'state':ERR,'msg':'注册失败'}
 	}
+}
+
+export const getlist = async (name) => {
+		const _user = await User.findOne({'username':name})
+		return {state:ERR,user:_user}	
 }

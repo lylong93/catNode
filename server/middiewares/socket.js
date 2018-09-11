@@ -14,13 +14,12 @@ export default (server)=> {
 					console.log(UserMap)
 					console.log(UserMap.size); 
 			});
-			socket.on('server', (data)=> {
-					console.log(data)
-			});
+
+			// 发送信息
 			socket.on('sendMsg', (data)=> {
 					console.log(data)
 					const id = UserMap.get(data.to)
-					io.to(id).emit('ggg','data.msg')
+					io.to(id).emit('RecMsg',data.msg)
 			});
 
 

@@ -55,15 +55,14 @@ export const post = path => _router({
 
 const _token = async (ctx,next) => {
   const {authorization} = ctx.header
-
   try {
-    veriToken(authorization)
-    console.log(veriToken(authorization))
-    ctx.state.username = 'lyl'
+    const info = await veriToken(authorization)
+    ctx.state.user = info.name
+    console.log(ctx.body)
+    ctx.body = 'ctx.body'
     next()
   }
   catch(err) {
-    console.log()
     next()
   }
 }
