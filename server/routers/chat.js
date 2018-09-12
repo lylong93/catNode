@@ -4,10 +4,10 @@ import { send,getlist} from '../controls/chat.js'
 @controller('/api/chat')
 export class userController {
 	@get('/userlist')
-	@verifyToken
-	async lll(ctx,next) {
+	// @verifyToken
+	async getlist(ctx,next) {
 		const data = await getlist(ctx.state.user)
-		ctx.body = data
+		ctx.body = 'data'
 	}
 
 	@post('/send')

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import {signToken,veriToken} from '../utils/token'
 import {stateConfig} from '../config'
 import {User} from '../database/model.js'
@@ -6,16 +7,17 @@ const {SUCCESS,ERR,SERERR} = stateConfig
 
 export const register = async (user) => {
 	const {name,password}  = user
-	const newUser = new User({'username':name,'password':password})
+
+	const newUser = new User({'username':name,'password':password,class:new mongoose.Types.ObjectId(),})
 	try {
  		const query = await newUser.save()
  		return {state:SUCCESS,msg:'注册成功'}
 	} 
 	catch(err) {
+		console.log(err)
 		 return {state:ERR,msg:'注册失败'}
 	}
 }
-
 
 export const login = async (user) => {
 	const {name,password}  = user

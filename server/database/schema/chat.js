@@ -7,12 +7,6 @@ const chatSchema = new Schema({
 	},
 	to: {
 		type: String,
-	},
-	msg: {
-		type: String,
-	},
-	readed:{
-		type: Boolean,
 	}
 })
 

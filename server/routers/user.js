@@ -2,7 +2,6 @@ import { controller, get,post,verifyToken} from '../utils/decorator.js'
 import { register,login,getinfo} from '../controls/user.js'
 import {signToken} from '../utils/token'
 
-
 @controller('/api/user')
 export class userController {
 	@post('/register')
