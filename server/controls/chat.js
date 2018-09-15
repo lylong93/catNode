@@ -14,7 +14,6 @@ export const getlist = async (name) => {
 		const query = await newChat.save()
 		const _user = await User.findOne({ username:'123'}).populate('class')
 
-
 		console.log(_user)
 		return {state:ERR,user:_user}	
 }
