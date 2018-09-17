@@ -23,7 +23,6 @@ export default (server)=> {
 			});
 
 
-
 			socket.on('disconnect', (data)=> {
 					console.log(data)
 			});
