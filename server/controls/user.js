@@ -8,7 +8,7 @@ const {SUCCESS,ERR,SERERR} = stateConfig
 export const register = async (user) => {
 	const {name,password}  = user
 
-	const newUser = new User({'username':name,'password':password,class:new mongoose.Types.ObjectId(),})
+	const newUser = new User({'username':name,'password':password})
 	try {
  		const query = await newUser.save()
  		return {state:SUCCESS,msg:'注册成功'}

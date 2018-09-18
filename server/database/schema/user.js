@@ -14,7 +14,10 @@ const userSchema = new Schema({
 	password: {
 		type: String,
 	},
- 	class: { type: Schema.Types.ObjectId,ref:'chat'},
+ 	firends: [{ 
+	 	type: Schema.Types.ObjectId,
+	 	ref:'chat'
+	}],
 	meta:{
 		type: Date,
     default: Date.now()
