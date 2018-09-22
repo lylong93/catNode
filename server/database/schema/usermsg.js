@@ -1,14 +1,14 @@
 import mongoose from 'mongoose'
 const Schema = mongoose.Schema;
 
-const chatSchema = new Schema({
+const userSchema = new Schema({
 	form: {
 		type: Schema.Types.ObjectId,
 		ref:'user'
 	},
 	to: {
 		type: Schema.Types.ObjectId,
-		ref:'user'
+		ref:'shop'
 	},
 	msg:{
 		type:String
@@ -16,4 +16,4 @@ const chatSchema = new Schema({
 })
 
 
-export default chatSchema
+export default userSchema

@@ -1,10 +1,10 @@
 import mongoose from 'mongoose'
 const Schema = mongoose.Schema;
 
-const chatSchema = new Schema({
+const shopSchema = new Schema({
 	form: {
 		type: Schema.Types.ObjectId,
-		ref:'user'
+		ref:'shop'
 	},
 	to: {
 		type: Schema.Types.ObjectId,
@@ -16,4 +16,4 @@ const chatSchema = new Schema({
 })
 
 
-export default chatSchema
+export default shopSchema
