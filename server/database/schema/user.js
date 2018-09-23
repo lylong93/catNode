@@ -16,7 +16,11 @@ const userSchema = new Schema({
 	},
  	firends: [{ 
 	 	type: Schema.Types.ObjectId,
-	 	ref:'chat'
+	 	ref:'shop'
+	}],
+	msgs:[{
+		type: Schema.Types.ObjectId,
+	 	ref:'usermsg'
 	}],
 	meta:{
 		type: Date,

@@ -1,20 +1,13 @@
 import {signToken,veriToken} from '../utils/token'
 import {stateConfig} from '../config'
-import {Chat,User,shopMsg} from '../database/model.js'
+import {Chat,User,shopMsg,Shop} from '../database/model.js'
 import mongoose from 'mongoose'
 
 const {SUCCESS,ERR,SERERR} = stateConfig
 
-export const getList = async (name) => {
+export const getFriendListControl = async (name) => {
 		const id = new mongoose.Types.ObjectId()
 		
-		// const newChat = new Chat({from:333,to:555,_id:id})
-		// const query = await newChat.save()
-		// // console.log(query)
-		// User.update({ username : "111"}, { $push : { firends: id}},function(err,result){
-		//   if (err) return console.error(err);
-		//   console.log(result);
-		// });
 		const chatuser = await User.findOne({ username:'222'})
 		console.log(chatuser)
 
@@ -23,11 +16,26 @@ export const getList = async (name) => {
 		return {state:ERR,user:_user}	
 }
 
-export const getMsgList = async (user) => {
+export const getMsgListControl = async (user) => {
 		const {from,to} = user
 		const query = await shopMsgSchema.find({from,to})
 		// shopMsg.update({ username : "111"}, { $push : { firends: id})
 		console.log(query)
 
 		return {state:SUCCESS,query}	
+}
+
+export const getUserListControl = async () => {
+
+	try {
+		const query = await Shop.find({},{username:1})
+		console.log(query)
+		return {state:SUCCESS,list:query}	
 	}
+	catch(err) {
+		console.log(err)
+		return {state:ERR}
+	 }
+
+	
+}

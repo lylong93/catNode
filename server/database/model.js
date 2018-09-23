@@ -9,5 +9,5 @@ import userMsgSchema from './schema/usermsg'
 export const User = mongoose.model('user', userSchema)
 export const Shop = mongoose.model('shop', shopSchema)
 export const Chat = mongoose.model('chat', chatSchema)
-export const shopMsg = mongoose.model('shopmsg', shopMsgSchema)
-export const usermsg = mongoose.model('usermsg', userMsgSchema)
+export const ShopMsg = mongoose.model('shopmsg', shopMsgSchema)
+export const UserMsg = mongoose.model('usermsg', userMsgSchema)

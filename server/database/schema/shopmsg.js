@@ -10,6 +10,10 @@ const shopSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref:'user'
 	},
+	ifRead:{
+		type:Boolean,
+		default:false,
+	},
 	msg:{
 		type:String
 	}

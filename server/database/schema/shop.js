@@ -14,9 +14,13 @@ const shopSchema = new Schema({
 	password: {
 		type: String,
 	},
- 	firends: [{ 
+ 	firends: [{
 	 	type: Schema.Types.ObjectId,
-	 	ref:'chat'
+	 	ref:'user'
+	}],
+	msgs:[{
+		type: Schema.Types.ObjectId,
+	 	ref:'shopmsg'
 	}],
 	meta:{
 		type: Date,
