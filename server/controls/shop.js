@@ -44,6 +44,7 @@ export const getinfo = async (token) => {
 		return {state:SUCCESS,name}
 	} 
 	catch(err) {
+		console.log(err)
 		return {state:ERR}
 	}
 	

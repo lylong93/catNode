@@ -1,6 +1,6 @@
 import {signToken,veriToken} from '../utils/token'
 import {stateConfig} from '../config'
-import {User,Shop} from '../database/model.js'
+import {User,Shop,Chat} from '../database/model.js'
 import mongoose from 'mongoose'
 
 const {SUCCESS,ERR,SERERR} = stateConfig
@@ -16,14 +16,26 @@ export const getFriendListControl = async (name) => {
 		return {state:ERR,user:_user}	
 }
 
-export const getMsgListControl = async (id) => {
+export const getMsgListControl = async (user,id) => {
 		try {
-			const query = await User.find({_id,id})
-			console.log(query)
-			return {state:SUCCESS,list:query}	
+			const query = await User.findOne({'_id':id},{username:1})
+			const shopid = await Shop.findOne({'username':user})
+
+			const msgs = await Shop.findOne({'username':user},{$set:{ifRead:true}},{msgs:1})
+														 .populate({path:'msgs',match:{
+														 	$or:[
+														 		{
+														 			$and:[{'to':shopid._id},{'from':id}]
+														 		},
+														 			{$and:[{'from':shopid._id},{'to':id}]}
+														 		]
+															}
+														})
+			console.log(msgs)
+			return {state:SUCCESS,data:{query,'list':msgs.msgs}}	
 		}
 		catch(err) {
-			console.log('err')
+			console.log(err)
 			return {state:ERR}
 		 }
 }

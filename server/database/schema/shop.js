@@ -20,7 +20,7 @@ const shopSchema = new Schema({
 	}],
 	msgs:[{
 		type: Schema.Types.ObjectId,
-	 	ref:'shopmsg'
+	 	ref:'chat'
 	}],
 	meta:{
 		type: Date,

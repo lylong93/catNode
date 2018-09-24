@@ -13,10 +13,9 @@ export class userController {
 	@get('/msglist')
 	@verifyToken
 	async getMsgList(ctx, next) {
-		console.log(ctx.request.id)
-
-		const id = ctx
-		const data = await getMsgListControl(id)
+		const id = ctx.query.id
+		const user = ctx.state.user
+		const data = await getMsgListControl(user,id)
 		ctx.body = data
 	}
 

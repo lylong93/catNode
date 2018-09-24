@@ -20,7 +20,7 @@ const userSchema = new Schema({
 	}],
 	msgs:[{
 		type: Schema.Types.ObjectId,
-	 	ref:'usermsg'
+	 	ref:'chat'
 	}],
 	meta:{
 		type: Date,
