@@ -20,18 +20,23 @@ export const getMsgListControl = async (user,id) => {
 		try {
 			const query = await User.findOne({'_id':id},{username:1})
 			const shopid = await Shop.findOne({'username':user})
-
-			const msgs = await Shop.findOne({'username':user},{$set:{ifRead:true}},{msgs:1})
-														 .populate({path:'msgs',match:{
-														 	$or:[
-														 		{
-														 			$and:[{'to':shopid._id},{'from':id}]
-														 		},
-														 			{$and:[{'from':shopid._id},{'to':id}]}
-														 		]
+			// const msgs = await Shop.findOne({'username':user},{msgs:1})
+			const msgs = await Shop.findOne({'username':user})
+														 .populate({
+														 	path:'msgs',
+														 	match:{
+															 	$or:[
+															 		{
+															 			$and:[{'to':shopid._id},{'from':id}]
+															 		},
+															 			{$and:[{'from':shopid._id},{'to':id}]}
+															 		]
 															}
 														})
-			console.log(msgs)
+			msgs.msgs.forEach((item)=> {
+				Chat.update({_id:item._id},{$set:{ifRead:true}})
+			})
+			
 			return {state:SUCCESS,data:{query,'list':msgs.msgs}}	
 		}
 		catch(err) {

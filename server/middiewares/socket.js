@@ -1,6 +1,6 @@
 import socket from 'socket.io'
 import mongoose from 'mongoose'
-import {Shop,User,ShopMsg,UserMsg,Chat} from '../database/model.js'
+import {Shop,User,ShopMsg,UserMsg,Chat,SockId} from '../database/model.js'
 
 const UserMap = new Map();
 
@@ -9,9 +9,19 @@ export default (server)=> {
 
 		io.on('connection', async (socket)=> {
 
-			socket.on('login', (data)=> {
-					UserMap.set(data, socket.id);
-					console.log(UserMap)
+			socket.on('shopLogin', async (data)=> {
+					const shop = await Shop.findOne({username:data})
+					const socketid=  await SockId.findOne({user:shop._id})
+					if(!socketid) {
+						new SockId({user:shop._id,id:socket.id}).save()
+					}else {
+						 await SockId.update({user:shop._id},{$set:{id:socket.id}})
+					}
+			});
+			socket.on('userLogin', async (data)=> {
+					const user = await User.findOne({username:data})
+					// console.log(user._id)
+					// user._id = socket.id
 			});
 			//消息
 			// shop发送信息
@@ -21,34 +31,23 @@ export default (server)=> {
 
 				const id = new mongoose.Types.ObjectId()
 
-				const shopid= await Shop.findOne({'username':from},{_id:1})
-				const userid= await User.findOne({'username':to},{_id:1})
+				const [shopid,userid] = await Promise.all([
+				   Shop.findOne({'username':from},{_id:1}),
+					 User.findOne({'username':to},{_id:1})
+				  ]
+				 )
 
 				const newMsg = new Chat({'from':shopid,'to':userid,'msg':msg,'_id':id})
 	
-				const query = await newMsg.save()
+				const query = await new Chat({'from':shopid,'to':userid,'msg':msg,'_id':id}).save()
 
 				await Promise.all([
 				  Shop.update({ username:from}, { $push : { msgs: id}}),
 				  User.update({ username:to}, { $push : { msgs: id}})
 				  ]
 				 )
-				 
-				// console.log(pushmsgs)
-				// 		  console.log(result);
-				// 		});
-
-
-				// const _id = new mongoose.Types.ObjectId()
-
-				// const {from,to,msg}  = data
-
-				
-				
-
-				// const id = UserMap.get(data.to)
-
-				// io.to(id).emit('ShopRecMsg',data.msg)
+				const socketid=await SockId.findOne({user:userid})
+				io.to(socketid.id).emit('ShopRecMsg',data.msg)
 			
 			});
 			// user发送信息
