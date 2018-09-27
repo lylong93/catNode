@@ -11,7 +11,8 @@ export default (server)=> {
 
 			socket.on('shopLogin', async (data)=> {
 					const shop = await Shop.findOne({username:data})
-					const socketid=  await SockId.findOne({user:shop._id})
+					
+					const socketid = await SockId.findOne({user:shop._id})
 					if(!socketid) {
 						new SockId({user:shop._id,id:socket.id}).save()
 					}else {
@@ -20,8 +21,13 @@ export default (server)=> {
 			});
 			socket.on('userLogin', async (data)=> {
 					const user = await User.findOne({username:data})
-					// console.log(user._id)
-					// user._id = socket.id
+					
+					const socketid = await SockId.findOne({user:user._id})
+					if(!socketid) {
+						new SockId({user:user._id,id:socket.id}).save()
+					}else {
+						 await SockId.update({user:user._id},{$set:{id:socket.id}})
+					}
 			});
 			//消息
 			// shop发送信息

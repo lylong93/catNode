@@ -1,7 +1,7 @@
 import { controller, get,post,verifyToken} from '../utils/decorator.js'
 import { getFriendListControl,getMsgListControl,getUserListControl} from '../controls/shopchat.js'
 
-@controller('/api/shopchat')
+@controller('/api/shoporder')
 export class userController {
 	@get('/friendList')
 	// @verifyToken
