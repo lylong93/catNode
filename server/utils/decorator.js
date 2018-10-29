@@ -4,7 +4,9 @@ import glob  from 'glob'
 import { resolve } from  'path'
 
 import {veriToken} from './token'
-//
+
+import multer from 'koa-multer'
+
 const symbolPrefix = Symbol('prefix')
 const routerMap = new Map()
 
@@ -68,4 +70,33 @@ const _token = async (ctx,next) => {
 export const verifyToken = (target,key) => {
    target[key] = isArray(target[key])
    target[key].unshift(_token)
+}
+
+
+
+//配置
+var storage = multer.diskStorage({
+  //文件保存路径
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads/')
+  },
+  //修改文件名称
+  filename: function (req, file, cb) {
+    var fileFormat = (file.originalname).split(".");
+    cb(null,Date.now() + "." + fileFormat[fileFormat.length - 1]);
+  }
+})
+//加载配置
+var uploadd = multer({ storage: storage });
+
+
+const _upload = async (ctx,next) => {
+  console.log(ctx.request.body)
+  uploadd.single('file')
+  await next()
+}
+
+export const upload = (target,key) => {
+   target[key] = isArray(target[key])
+   target[key].unshift(_upload)
 }
