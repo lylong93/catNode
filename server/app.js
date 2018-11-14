@@ -7,7 +7,7 @@ import socket from './middiewares/socket'
 import R from 'ramda'
 
 const MIDDLEWARES = ['router','db']
-
+// 函数式编程 ramda 
 const useMiddlewraes = (app) => {
 	R.map(
 		R.compose(

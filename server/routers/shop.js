@@ -32,7 +32,7 @@ export class userController {
 		const data = await upAvatar()
 		ctx.body = data
 	}
-	// 修改
+	//修改
 	// @post('/upDate')
 	// async upDate(ctx) {
 	// 	const data = await set(token)
