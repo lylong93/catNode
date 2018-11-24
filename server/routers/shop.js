@@ -26,9 +26,7 @@ export class userController {
 	}
 	//上传头像
 	@post('/upAvatar')
-	// @upload
 	async upAvatar(ctx) {
-		console.log(ctx.request.body)
 		const data = await upAvatar()
 		ctx.body = data
 	}

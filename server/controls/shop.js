@@ -4,7 +4,11 @@ import util from 'util';
 import path from 'path'
 import {signToken,veriToken} from '../utils/token'
 import {stateConfig} from '../config'
+
+import uploadToken from '../utils/qiniu'
+
 import {Shop} from '../database/model.js'
+
 
 const {SUCCESS,ERR,SERERR} = stateConfig
 
@@ -54,25 +58,7 @@ export const getinfo = async (token) => {
 
 //上传头像
 export const upAvatar = async (ctx) => {
-	// console.log(ctx)
-	try {
-		// const form = new formidable.IncomingForm();
-		// form.uploadDir = path.join(__dirname,'../static','dirName');
-		// form.keepExtensions = true;
-  //       form.encoding = 'utf-8';
-		// form.parse(ctx, function(err, fields, files) {
-		// 	console.log(err)
-  //     		// res.writeHead(200, {'content-type': 'text/plain'});
-  //    	 	// res.write('received upload:\n\n');
-		// 	// util.inspect({fields: fields, files: files})
-  //   	});
-	    return {state:SUCCESS}
-		} 
-	catch(err) {
-		console.log(err)
-		return {state:ERR}
-	}
-	
+	return {state:SUCCESS ,uploadToken}
 }
 
 // //设置

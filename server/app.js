@@ -6,7 +6,8 @@ import bodyParser from 'koa-bodyparser'
 import socket from './middiewares/socket'
 import R from 'ramda'
 
-const MIDDLEWARES = ['router','db']
+const MIDDLEWARES = ['router','sql']
+// const MIDDLEWARES = ['router','db']
 // 函数式编程 ramda 
 const useMiddlewraes = (app) => {
 	R.map(

@@ -1,7 +1,17 @@
 import qiniu from 'qiniu'
-import config from '../config'
+import {qiniuConfig} from '../config'
 
-qiniu.conf.ACCESS_KEY = config.qiniu.AK
-qiniu.conf.SECRET_KEY = config.qiniu.SK
+let { AK, SK ,bucket} = qiniuConfig
 
-const bucket = config.qiniu.bucket
+const mac = new qiniu.auth.digest.Mac(AK, SK);
+
+const options = {
+  scope: bucket,
+};
+
+const putPolicy = new qiniu.rs.PutPolicy(options);
+
+const uploadToken=putPolicy.uploadToken(mac);
+
+console.log(uploadToken)
+export default uploadToken

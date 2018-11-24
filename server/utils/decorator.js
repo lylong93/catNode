@@ -1,5 +1,5 @@
 import Router  from 'koa-router'
-import _ from 'loadsh'
+import _ from 'lodash'
 import glob  from 'glob'
 import { resolve } from  'path'
 
