@@ -1,11 +1,11 @@
 const Sequelize = require('sequelize')
 import {db} from '../config'
 
-export const User = db.define('user', {
-    // 用户名
-    test: {
+const User = db.define('test', {
+    username: {
         type: Sequelize.STRING,
         unique: true,
         allowNull: false
     },
 })
+export default User
