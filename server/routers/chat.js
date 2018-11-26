@@ -11,9 +11,9 @@ export class userController {
 	}
 
 	@post('/msglist')
-	async getMsgList(ctx, next) {
+	async getMsgList(ctx) {
 		const user = ctx.request.body
-		const data = await send(user)
+		const data = await getMsgList(user)
 		ctx.body = data
 	}
 }

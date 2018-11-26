@@ -1,20 +1,16 @@
 import {signToken,veriToken} from '../utils/token'
 import {stateConfig} from '../config'
-import {Chat,User,shopMsg} from '../database/model.js'
+// import {Chat,User,shopMsg} from '../database/model.js'
 import mongoose from 'mongoose'
+
+import Chat from '../database//models/chat.js'
+import User from '../database//models/user.js'
 
 const {SUCCESS,ERR,SERERR} = stateConfig
 
 export const getList = async (name) => {
 		const id = new mongoose.Types.ObjectId()
 		
-		// const newChat = new Chat({from:333,to:555,_id:id})
-		// const query = await newChat.save()
-		// // console.log(query)
-		// User.update({ username : "111"}, { $push : { firends: id}},function(err,result){
-		//   if (err) return console.error(err);
-		//   console.log(result);
-		// });
 		const chatuser = await User.findOne({ username:'222'})
 		console.log(chatuser)
 
@@ -24,10 +20,22 @@ export const getList = async (name) => {
 }
 
 export const getMsgList = async (user) => {
-		const {from,to} = user
-		const query = await shopMsgSchema.find({from,to})
-		// shopMsg.update({ username : "111"}, { $push : { firends: id})
-		console.log(query)
+		try {
+			 let chat =await Chat.create({
+				from:'ooo',
+				to:'dd',
+				msg:'你好'
+			})
 
-		return {state:SUCCESS,query}	
+			let query = await User.findOne({where: {username:'one'},include:[Chat]})
+			// let query = await User.findAll({ include: [ Chat ] })
+			// query.addChat(chat)
+
+			await query.addChat(chat)
+			return {state:SUCCESS,data:query}
+		
+		}catch(err) {
+			console.log(err)
+			return {state:ERR,err}	
+		}
 	}
