@@ -12,7 +12,7 @@ const User = db.define('user', {
     },
     password: {
         type: Sequelize.STRING,
-        allowNull: false,
+        // allowNull: false,
     }}
 )
 User.test = function () {
@@ -27,9 +27,9 @@ User.prototype.compare = function (password) {
     const match = bcrypt.compareSync(password,this.password)
     return match
 }
-User.prototype.addChat = function (chat) {
-    // console.log(this)
-    this.chats.push(chat)
-    // return this
-}
+// User.prototype.addChat = function (chat) {
+//     // console.log(this)
+//     this.chats.push(chat)
+//     // return this
+// }
 export default User

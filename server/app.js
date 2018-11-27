@@ -5,21 +5,28 @@ import { resolve } from 'path'
 import bodyParser from 'koa-bodyparser'
 import socket from './middiewares/socket'
 import R from 'ramda'
+import sql from './middiewares/sql'
+import router from './middiewares/router'
 
-const MIDDLEWARES = ['router','sql']
-// const MIDDLEWARES = ['router','db']
-// 函数式编程 ramda 
-const useMiddlewraes = (app) => {
-	R.map(
-		R.compose(
-			R.forEachObjIndexed(
-				initWith => initWith(app)
-			),
-			require,
-			name => resolve(__dirname, `./middiewares/${name}`)
-		)
-	)(MIDDLEWARES)
-}
+
+
+// debug
+
+// const MIDDLEWARES = ['router',sql']
+// const MIDDLEWARES = ['sql','router']
+// // const MIDDLEWARES = ['router','db']
+// // 函数式编程 ramda 
+// const useMiddlewraes = (app) => {
+// 	R.map(
+// 		R.compose(
+// 			R.forEachObjIndexed(
+// 				initWith => initWith(app)
+// 			),
+// 			require,
+// 			name => resolve(__dirname, `./middiewares/${name}`)
+// 		)
+// 	)(MIDDLEWARES)
+// }
 
 (async ()=> {
 	try {
@@ -28,8 +35,11 @@ const useMiddlewraes = (app) => {
 
 		app.use(bodyParser())
 		app.use(cors())
+		await sql()
 
-		await Promise.all([useMiddlewraes(app), socket(server)])
+		await router(app)
+	
+		// await Promise.all([useMiddlewraes(app), socket(server)])
 
 		server.listen(8000)
 		
