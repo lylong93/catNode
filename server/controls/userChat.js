@@ -1,6 +1,6 @@
 import {signToken,veriToken} from '../utils/token'
 import {stateConfig} from '../config'
-import {Chat,User,shopMsg,Shop} from '../database/model.js'
+import {Chat,User,Shop} from '../database//models'
 import mongoose from 'mongoose'
 
 const {SUCCESS,ERR,SERERR} = stateConfig
@@ -26,7 +26,6 @@ export const getMsgListControl = async (user) => {
 }
 
 export const getUserListControl = async () => {
-
 	try {
 		const query = await Shop.find({},{username:1})
 		console.log(query)

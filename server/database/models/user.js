@@ -1,9 +1,9 @@
 import  Sequelize  from 'sequelize'
 import bcrypt from 'bcrypt'
-import {db} from '../.././config'
+import {bcryptConfig} from '../.././config'
+import db from '.././db'
 
-const SaltRounds = 10;
-
+let {SaltRounds} = bcryptConfig
 const User = db.define('user', {
     username: {
         type: Sequelize.STRING,
@@ -12,7 +12,7 @@ const User = db.define('user', {
     },
     password: {
         type: Sequelize.STRING,
-        // allowNull: false,
+        allowNull: false,
     }}
 )
 User.test = function () {

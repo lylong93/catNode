@@ -1,11 +1,8 @@
 import {signToken,veriToken} from '../utils/token'
 import {stateConfig} from '../config'
-// import {Chat,User,shopMsg} from '../database/model.js'
 import mongoose from 'mongoose'
 
-import Chat from '../database//models/chat.js'
-import User from '../database//models/user.js'
-import Shop from '../database//models/shop.js'
+import {Chat,User,Shop} from '../database//models'
 
 const {SUCCESS,ERR,SERERR} = stateConfig
 

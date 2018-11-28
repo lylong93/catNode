@@ -89,7 +89,6 @@ var storage = multer.diskStorage({
 //加载配置
 var uploadd = multer({ storage: storage });
 
-
 const _upload = async (ctx,next) => {
   console.log(ctx.request.body)
   uploadd.single('file')

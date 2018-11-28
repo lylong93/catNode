@@ -1,49 +1,57 @@
-import mongoose from 'mongoose'
-import formidable from 'formidable'
-import util from 'util';
-import path from 'path'
+
 import {signToken,veriToken} from '../utils/token'
 import {stateConfig} from '../config'
+import {Shop} from '../database//models'
 
 import uploadToken from '../utils/qiniu'
 
-import {Shop} from '../database/model.js'
-
-
 const {SUCCESS,ERR,SERERR} = stateConfig
 
-export const register = async (user) => {
-	const {name,password}  = user
-
-	const newUser = new Shop({'username':name,'password':password})
+export const _register = async (data) => {
+	const {shopname,password}  = data	
 	try {
- 		const query = await newUser.save()
- 		return {state:SUCCESS,msg:'注册成功'}
-	} 
-	catch(err) {
+		let shop = await Shop.findOne({where: {shopname}})
+		if(!shop) {
+			let query = await Shop.build({
+				shopname,
+				password
+			})
+			//加盐
+			await query.bcrypt()
+			await query.save()
+			return {state:SUCCESS,msg:'注册成功'}
+		}else {
+			return {state:ERR,msg:'该店铺已存在'}
+		}
+	}catch (err){
 		console.log(err)
-		 return {state:ERR,msg:'注册失败'}
+		return {state:SERERR,msg:'注册失败'}
 	}
 }
 
-export const login = async (user) => {
-	const {name,password}  = user
-	const _user = await Shop.findOne({'username':name})
-
-	if(!_user) {
-		return {state:ERR,msg:'无此用户'}	
-	}
-	const data = _user.compare(password,_user.password)
-
-	if(data) {
-		const token = await signToken(user)
-		return {state:SUCCESS,token,name,}
-	}else {
-		return {state:ERR,msg:'登录失败'}
+export const _login = async (data) => {
+	const {shopname,password}  = data
+	try {
+		let shop = await Shop.findOne({where: {shopname}})
+		if (!shop) {
+			return {state:ERR,msg:'无此用户'}
+		}else {
+			let flag= shop.compare(password)
+			if(flag) {
+				let {shopname,password} = shop
+				const token = await signToken({shopname,password})
+				return {state:SUCCESS,token}
+			}else {
+				return {state:ERR,msg:'密码错误'}
+			}	
+		}
+	}catch(err) {
+		console.log(err)
+			return {state:SERERR,msg:'登录失败'}
 	}
 }
 
-export const getinfo = async (token) => {
+export const _getInfo = async (token) => {
 	try {
 		const info = await veriToken(token)
 		const {name} = info
@@ -56,21 +64,31 @@ export const getinfo = async (token) => {
 	
 }
 
-//上传头像
-export const upAvatar = async (ctx) => {
+export const _getUptoken = async (ctx) => {
 	return {state:SUCCESS ,uploadToken}
 }
 
-// //设置
-// export const set = async (token) => {
-// 	try {
-// 		// const info = await veriToken(token)
-// 		// const {name} = info
-// 		// return {state:SUCCESS,name}
-// 	}
-// 	catch(err) {
-// 		console.log(err)
-// 		return {state:ERR}
-// 	}
+export const _upAvatar = async (data) => {
+	const {shopname,img}  = data
+	console.log(img)
+	try {
+		let shop = await Shop.findOne({where: {shopname}})
+		let finshed = await shop.update({'avatar':img})
+		return {state:SUCCESS ,finshed}
+	}catch(err) {
+		return {state:ERR ,msg: 'err'}
+	}
+}
+
+export const _set = async (token) => {
+	try {
+		// const info = await veriToken(token)
+		// const {name} = info
+		// return {state:SUCCESS,name}
+	}
+	catch(err) {
+		console.log(err)
+		return {state:ERR}
+	}
 	
-// }
+}

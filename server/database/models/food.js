@@ -1,7 +1,7 @@
 import  Sequelize  from 'sequelize'
 import db from '.././db'
 
-const Chat = db.define('chat', {
+const Food = db.define('chat', {
     msg: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -12,4 +12,4 @@ const Chat = db.define('chat', {
     }
 })
 
-export default Chat
+export default Food
