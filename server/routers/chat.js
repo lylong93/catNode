@@ -1,8 +1,8 @@
 import { controller, get,post,verifyToken} from '../utils/decorator.js'
-import { getMsgList,getList} from '../controls/chat.js'
+import { getMsgList,getList,test} from '../controls/chat.js'
 
 @controller('/api/chat')
-export class userController {
+export class Controller {
 	@get('/userlist')
 	@verifyToken
 	async getlist(ctx,next) {
@@ -14,6 +14,13 @@ export class userController {
 	async getMsgList(ctx) {
 		const user = ctx.request.body
 		const data = await getMsgList(user)
+		ctx.body = data
+	}
+
+	@post('/test')
+	async getlist(ctx) {
+		const dd = ctx.request.body
+		const data = await test(dd)
 		ctx.body = data
 	}
 }

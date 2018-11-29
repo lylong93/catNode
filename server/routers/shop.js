@@ -2,7 +2,7 @@ import { controller, get,post,verifyToken} from '../utils/decorator.js'
 import { _register,_login,_getInfo,_set,_upAvatar,_getUptoken} from '../controls/shop.js'
 
 @controller('/api/shop')
-export class userController {
+export class Controller {
 	@post('/register')
 	async register(ctx) {
 		const user = ctx.request.body

@@ -2,7 +2,7 @@ import { controller, get,post,verifyToken} from '../utils/decorator.js'
 import { getFriendListControl,getMsgListControl,getUserListControl} from '../controls/userchat.js'
 
 @controller('/api/userchat')
-export class userController {
+export class Controller {
 	@get('/friendList')
 	@verifyToken
 	async getlist(ctx,next) {

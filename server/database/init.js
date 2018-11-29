@@ -1,20 +1,21 @@
-import {User,Shop,Friend,Usermsg,Shopmsg,Chat,Order} from './models'
+import {User,Shop,Friend,UserMsg,ShopMsg,Chat,Order,SocketId} from './models'
 
 const init =()=> {
-    Shop.belongsToMany(User, {through: Friend});
-    User.belongsToMany(Shop, {through: Friend});
-    
-    Shop.belongsToMany(User, {through: Shopmsg,foreignKey: 'from'});
-    User.belongsToMany(Shop, {through: Shopmsg,foreignKey: 'to'});
 
-    User.belongsToMany(Shop, {through: Usermsg,foreignKey: 'from'});
-    Shop.belongsToMany(User, {through: Usermsg,foreignKey: 'to'});
+    Shop.belongsToMany(User, {
+        through: Friend,
+        
+    });
+    User.belongsToMany(Shop, {
+        through: Friend,
+      
+    });
     
-    Usermsg.hasMany(Chat)
-    Shopmsg.hasMany(Chat)
+    Shop.hasMany(Chat)
+    User.hasMany(Chat)
 
-    Shop.belongsToMany(User, {through: Order});
-    User.belongsToMany(Shop, {through: Order});
+    // Shop.belongsToMany(User, {through: Order});
+    // User.belongsToMany(Shop, {through: Order});
    
 }
 

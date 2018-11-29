@@ -1,7 +1,7 @@
 import  Sequelize  from 'sequelize'
 import db from '.././db'
 
-const Food = db.define('chat', {
+const Food = db.define('food', {
     msg: {
         type: Sequelize.STRING,
         allowNull: false,

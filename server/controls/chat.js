@@ -2,7 +2,7 @@ import {signToken,veriToken} from '../utils/token'
 import {stateConfig} from '../config'
 import mongoose from 'mongoose'
 
-import {Chat,User,Shop} from '../database//models'
+import {Chat,User,Shop,Friend} from '../database//models'
 
 const {SUCCESS,ERR,SERERR} = stateConfig
 
@@ -43,4 +43,39 @@ export const getMsgList = async (user) => {
 			console.log(err)
 			return {state:ERR,err}	
 		}
+}
+
+export const test = async (data) => {
+	let {from,to} = data
+	console.log(from)
+	console.log(to)
+	try{
+		let shop = await Shop.findOne({
+			where: {shopname:from}
+		})
+		let user = await User.findOne({
+			where: {username:to}
+		})
+		
+		// await Friend.create({
+		// 	shopId:shop.id,
+		// 	userId:user.id
+		// })
+
+		let data = await User.findOne({
+			where:{
+				username:user.username
+			},
+			include: [{
+				model:Shop,
+				attributes:['shopname']
+			}]
+		})
+		let fr = data.shops
+
+		return {fr}
+	} catch(err) {
+		console.log(err)
+		return {err}
 	}
+}

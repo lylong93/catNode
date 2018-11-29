@@ -54,8 +54,8 @@ export const _login = async (data) => {
 export const _getInfo = async (token) => {
 	try {
 		const info = await veriToken(token)
-		const {name} = info
-		return {state:SUCCESS,name}
+		const {shopname} = info
+		return {state:SUCCESS,shopname}
 	} 
 	catch(err) {
 		console.log(err)
@@ -70,7 +70,6 @@ export const _getUptoken = async (ctx) => {
 
 export const _upAvatar = async (data) => {
 	const {shopname,img}  = data
-	console.log(img)
 	try {
 		let shop = await Shop.findOne({where: {shopname}})
 		let finshed = await shop.update({'avatar':img})

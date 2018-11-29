@@ -9,6 +9,10 @@ const Chat = db.define('chat', {
     hasRead:{
         type: Sequelize.BOOLEAN,
         defaultValue: false,
+    },
+    type: {
+        type: Sequelize.STRING,
+        defaultValue: '1'
     }
 })
 
