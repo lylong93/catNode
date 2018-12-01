@@ -3,6 +3,7 @@ import {stateConfig} from '../config'
 import mongoose from 'mongoose'
 
 import {Chat,User,Shop,Friend} from '../database//models'
+import { runInContext } from 'vm';
 
 const {SUCCESS,ERR,SERERR} = stateConfig
 
@@ -57,6 +58,11 @@ export const test = async (data) => {
 			where: {username:to}
 		})
 		
+		// let chat = await Chat.create({
+		// 	msg:'oo',
+		// 	shopId:1,
+		// })
+
 		// await Friend.create({
 		// 	shopId:shop.id,
 		// 	userId:user.id
@@ -68,12 +74,11 @@ export const test = async (data) => {
 			},
 			include: [{
 				model:Shop,
-				attributes:['shopname']
 			}]
 		})
 		let fr = data.shops
-
 		return {fr}
+		
 	} catch(err) {
 		console.log(err)
 		return {err}

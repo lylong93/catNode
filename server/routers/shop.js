@@ -23,7 +23,7 @@ export class Controller {
 		const data = await _getInfo(token)
 		ctx.body = data
 	}
-
+	//七牛云 kotken
 	@get('/getUptoken')
 	async getUptoken(ctx) {
 		const data = await _getUptoken()
