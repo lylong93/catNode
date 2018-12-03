@@ -1,7 +1,7 @@
 
 import {signToken,veriToken} from '../utils/token'
 import {stateConfig} from '../config'
-import {Shop} from '../database//models'
+import {Shop,Good} from '../database//models'
 
 import uploadToken from '../utils/qiniu'
 
@@ -31,6 +31,7 @@ export const _register = async (data) => {
 
 export const _login = async (data) => {
 	const {shopname,password}  = data
+	console.log(data)
 	try {
 		let shop = await Shop.findOne({where: {shopname}})
 		if (!shop) {
@@ -87,6 +88,20 @@ export const _set = async (token) => {
 	}
 	catch(err) {
 		console.log(err)
+		return {state:ERR}
+	}
+}
+export const _addGood = async (ctx) => {
+	const {name,pice} = ctx.request.body
+	try {
+		let good = await Good.create({
+			name,
+			pice,
+			shopId:1
+		})
+		return {state:SUCCESS,msg:'添加成功'}
+	}
+	catch(err) {
 		return {state:ERR}
 	}
 	

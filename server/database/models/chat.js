@@ -12,7 +12,7 @@ const Chat = db.define('chat', {
     },
     type: {
         type: Sequelize.STRING,
-        defaultValue: '1'
+        defaultValue: '0'
     }
 })
 

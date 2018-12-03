@@ -59,7 +59,7 @@ const _token = async (ctx,next) => {
   const {authorization} = ctx.header
   try {
     const info = await veriToken(authorization)
-    ctx.state.user = info.name
+    ctx.state.user = info.shopname || info.username
     await next()
   }
   catch(err) {

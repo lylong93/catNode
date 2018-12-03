@@ -23,7 +23,6 @@ export const register = async (data) => {
 			return {state:ERR,msg:'该用户已存在'}
 		}
 	}catch (err){
-		console.log(err)
 		return {state:SERERR,msg:'注册失败'}
 	}
 }

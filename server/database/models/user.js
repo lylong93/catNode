@@ -4,6 +4,7 @@ import {bcryptConfig} from '../.././config'
 import db from '.././db'
 
 let {SaltRounds} = bcryptConfig
+
 const User = db.define('user', {
     username: {
         type: Sequelize.STRING,
@@ -13,12 +14,11 @@ const User = db.define('user', {
     password: {
         type: Sequelize.STRING,
         allowNull: false,
-    }}
-)
-User.test = function () {
-    console.log(this.password)
-}
-
+    },
+    avatar: {
+        type: Sequelize.STRING,
+    }
+})
 User.prototype.bcrypt = function () {
     const hash = bcrypt.hashSync(this.password, SaltRounds)
     this.password = hash
@@ -27,9 +27,4 @@ User.prototype.compare = function (password) {
     const match = bcrypt.compareSync(password,this.password)
     return match
 }
-// User.prototype.addChat = function (chat) {
-//     // console.log(this)
-//     this.chats.push(chat)
-//     // return this
-// }
 export default User

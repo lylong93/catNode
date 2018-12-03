@@ -23,5 +23,4 @@ export class Controller {
 		const data = await getinfo(token)
 		ctx.body = data
 	}
-
 }

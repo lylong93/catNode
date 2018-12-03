@@ -5,37 +5,52 @@ export default (server)=> {
 		const io = socket(server)
 		io.on('connection', async (socket)=> {
 			socket.on('shopLogin', async (shopname)=> {
-					try{
-						let ioId = await SocketId.findOne({
-							where: {name:shopname}
+				try{
+					let ioId = await SocketId.findOne({
+						where: {name:shopname}
+					})
+					let shop = await Shop.findOne({
+						where:{shopname}
+					})
+					if(!ioId) { 
+						await SocketId.create({
+							name:shopname,
+							socketid:socket.id,
+							shopId:shop.id
 						})
-						let shop = await Shop.findOne({
-							where:{shopname}
+					}else {
+						await ioId.update({
+							'socketid':socket.id,
+							'shopId':shop.id
 						})
-						if(!ioId) { 
-							await SocketId.create({
-								name:shopname,
-								socketid:socket.id,
-								shopId:shop.id
-							})
-						}else {
-							await ioId.update({
-								'socketid':socket.id,
-								'shopId':shop.id
-							})
-						}
-					}catch(err) {
-						console.log(err)
 					}
+				}catch(err) {
+					console.log(err)
+				}
 			});
 			socket.on('userLogin', async (data)=> {
-					let user = await User.findOne({username:data})
-					let socketid = await SockId.findOne({user:user._id})
-					if(!socketid) {
-						new SockId({user:user._id,id:socket.id}).save()
+				try{
+					let ioId = await SocketId.findOne({
+						where: {name:shopname}
+					})
+					let shop = await Shop.findOne({
+						where:{shopname}
+					})
+					if(!ioId) { 
+						await SocketId.create({
+							name:shopname,
+							socketid:socket.id,
+							shopId:shop.id
+						})
 					}else {
-						await SockId.update({user:user._id},{$set:{id:socket.id}})
+						await ioId.update({
+							'socketid':socket.id,
+							'shopId':shop.id
+						})
 					}
+				}catch(err) {
+					console.log(err)
+				}
 			});
 			// shop发送信息
 			socket.on('shopMsg', async (data)=> {

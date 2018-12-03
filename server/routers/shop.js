@@ -1,5 +1,5 @@
 import { controller, get,post,verifyToken} from '../utils/decorator.js'
-import { _register,_login,_getInfo,_set,_upAvatar,_getUptoken} from '../controls/shop.js'
+import { _register,_login,_getInfo,_set,_upAvatar,_getUptoken,_addGood} from '../controls/shop.js'
 
 @controller('/api/shop')
 export class Controller {
@@ -42,5 +42,10 @@ export class Controller {
 	async set(ctx) {
 		const data = await _set()
 		ctx.body = data
+	}
+	
+	@post('/addgood')
+	async addGood(ctx) {
+		ctx.body = await _addGood(ctx)
 	}
 }

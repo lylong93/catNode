@@ -19,9 +19,8 @@ export class Controller {
 
 	@get('/userlist')
 	@verifyToken
-		async userlist(ctx,next) {
-			const data = await getUserListControl()
-			ctx.body = data
-		}
-
+	async userlist(ctx,next) {
+		const data = await getUserListControl()
+		ctx.body = data
+	}
 }

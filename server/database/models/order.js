@@ -2,8 +2,13 @@ import  Sequelize  from 'sequelize'
 import db from '.././db'
 
 const Order = db.define('order', {
-    num: {
+    orderNumber: {
         type: Sequelize.STRING,
+        allowNull: false
+    },
+    totlePice:{
+        type: Sequelize.STRING,
+        allowNull: false
     }
 })
 

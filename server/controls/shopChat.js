@@ -7,8 +7,10 @@ const {SUCCESS,ERR,SERERR} = stateConfig
 
 export const _getAllUser = async (ctx) => {
 	try {
-		let query = await User.findAll()
-		return {state:SUCCESS,query}	
+		let list = await User.findAll({
+			attributes:['id','username','avatar']
+		})
+		return {state:SUCCESS,list}	
 	}
 	catch(err) {
 		return {state:ERR}
@@ -38,13 +40,16 @@ export const _getFriend = async (ctx) => {
 }
 
 export const _msgList = async (ctx) => {
-	let {from}= ctx.request.body
+	console.log(ctx.request.body)
+	// let shopname= ctx.state.user
+	// console.log(ctx.state.user)
+	// console.log()
 	try {
-		let msg = await Chat.findAll({
-			where: {shopId:1},
-			// attributes:['msg']
-		})
-		return {state:SUCCESS,msg}
+		// let msg = await Chat.findAll({
+		// 	where: {shopId:1},
+		// 	// attributes:['msg']
+		// })
+		return {state:SUCCESS}
 	}
 	catch(err) {
 		return {state:ERR}
