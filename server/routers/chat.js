@@ -17,6 +17,17 @@ export class Controller {
 		ctx.body = data
 	}
 
+	/**
+	 * @api {get} /user/:id Request User information
+	 * @apiName GetUser
+	 * @apiGroup User
+	 *
+	 * @apiParam {Number} id Users unique ID.
+	 *
+	 * @apiSuccess {String} firstname Firstname of the User.
+	 * @apiSuccess {String} lastname  Lastname of the User.
+	 */
+
 	@post('/test')
 	async getlist(ctx) {
 		const dd = ctx.request.body

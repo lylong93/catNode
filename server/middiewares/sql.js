@@ -3,7 +3,6 @@ import init from '../database/init'
 import db from '../database/db.js'
 
 export const connection= async ()=> {
-		console.log('connection 中')
         // 链接数据库      
         await db.authenticate()
         console.log('Content Success')

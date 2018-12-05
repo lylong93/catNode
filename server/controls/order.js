@@ -29,7 +29,9 @@ export const _addOrder = async (ctx) =>{
 }
 
 export const _getOrder = async (ctx) =>{
+
 	let {orderId} = ctx.request.body
+	
 	try {
 		let order = await Order.findAll({
 			where:{id:orderId},

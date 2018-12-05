@@ -6,7 +6,7 @@ export const sqlConfig  = {
 	pwd:'root',
 	log:false,
 }
-console.log('congfig 中')
+
 export const db = new Sequelize('cat', 'root', 'root', {
 	host: 'localhost',
 	dialect: 'mysql',

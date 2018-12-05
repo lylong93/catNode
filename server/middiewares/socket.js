@@ -28,24 +28,24 @@ export default (server)=> {
 					console.log(err)
 				}
 			});
-			socket.on('userLogin', async (data)=> {
+			socket.on('userLogin', async (username)=> {
 				try{
 					let ioId = await SocketId.findOne({
-						where: {name:shopname}
+						where: {name:username}
 					})
-					let shop = await Shop.findOne({
-						where:{shopname}
+					let user = await User.findOne({
+						where:{username}
 					})
 					if(!ioId) { 
 						await SocketId.create({
-							name:shopname,
+							name:username,
 							socketid:socket.id,
-							shopId:shop.id
+							userId:user.id
 						})
 					}else {
 						await ioId.update({
 							'socketid':socket.id,
-							'shopId':shop.id
+							'userId':user.id
 						})
 					}
 				}catch(err) {
@@ -62,63 +62,47 @@ export default (server)=> {
 					let user = await User.findOne({
 						where: {username:to}
 					})
-					
+					let ioId = await SocketId.findOne({
+						where: {name:shopname}
+					})
 					await Chat.create({
 						msg,
 						userId:user.id,
 						shopId:shop.id
-					})			
+					})
+
+					io.to(ioId.socketid).emit('ShopRecMsg',msg)
 				} catch(err) {
 					console.log(err)
-				}
-
-				// io.to(socketid.id).emit('ShopRecMsg',data.msg)
-				// const [shopid,userid] = await Promise.all([
-				//    Shop.findOne({'username':from},{_id:1}),
-				// 	 User.findOne({'username':to},{_id:1})
-				//   ]
-				//  )
-
-
-				// await Promise.all([
-				//   Shop.update({ username:from}, { $push : { msgs: id}}),
-				//   User.update({ username:to}, { $push : { msgs: id}})
-				//   ]
-				//  )
-				// const socketid=await SockId.findOne({user:userid})
-				// io.to(socketid.id).emit('ShopRecMsg',data.msg)
-			
+				}			
 			});
-			// // user发送信息
-			// socket.on('usermsg', async (data)=> {
-			// 		console.log(data)
-			// 		const id = new mongoose.Types.ObjectId()
-			// 		const {from,to,msg}  = data
-					
-			// 		const newChat = new UserMsg({_id:id,from,to,msg})
-			// 		const query = await newChat.save()
+			// user发送信息
+			socket.on('userMsg', async (data)=> {
+				const {from,to,msg} = data
+				try{
+					let shop = await Shop.findOne({
+						where: {username:from}
+					})
+					let user = await User.findOne({
+						where: {username:to}
+					})
+					let ioId = await SocketId.findOne({
+						where: {name:shopname}
+					})
+					await Chat.create({
+						msg,
+						userId:user.id,
+						shopId:shop.id
+					})
 
-			// 		// const id = UserMap.get(data.to)
-			// 		// io.to(id).emit('RecMsg',data.msg)
-				
-			// 		// console.log(query)
-			// 		User.update({ username : "111"}, { $push : { firends: id}},function(err,result){
-			// 		  if (err) return console.error(err);
-			// 		  console.log(result);
-			// 		});
-			// 		const chatuser = await User.findOne({ username:'222'})
-			// 		console.log(chatuser)
-
-
-			// 		const _user = await User.findOne({ username:'111'}).populate('firends')
-			// 		console.log(_user)
-
-			// 	});
+					io.to(ioId.socketid).emit('UserRecMsg',msg)
+				} catch(err) {
+					console.log(err)
+				}			
+			});
 			//订单
-			//
 			// socket.on('disconnect', (data)=> {
 			// 		console.log(data)
 			// });
-
 		});	 
 }
