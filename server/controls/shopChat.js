@@ -13,7 +13,7 @@ export const _getAllUser = async (ctx) => {
 		return {state:SUCCESS,list}	
 	}
 	catch(err) {
-		return {state:ERR}
+		return {state:SERERR}
 	 }
 
 }
@@ -35,7 +35,7 @@ export const _getFriend = async (ctx) => {
 		return {state:SUCCESS,data}	
 	}
 	catch(err) {
-		return {state:ERR}
+		return {state:SERERR}
 	 }
 }
 
@@ -52,7 +52,7 @@ export const _msgList = async (ctx) => {
 		return {state:SUCCESS}
 	}
 	catch(err) {
-		return {state:ERR}
+		return {state:SERERR}
 	}
 }
 
