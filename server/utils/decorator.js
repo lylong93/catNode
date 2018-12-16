@@ -57,6 +57,7 @@ const _token = async (ctx,next) => {
   const {authorization} = ctx.header
   try {
     const info = await veriToken(authorization)
+    console.log(info)
     ctx.state.user = info.shopname || info.username
     await next()
   }
@@ -69,8 +70,6 @@ export const verifyToken = (target,key) => {
    target[key] = isArray(target[key])
    target[key].unshift(_token)
 }
-
-
 
 export const upload = (target,key) => {
    target[key] = isArray(target[key])

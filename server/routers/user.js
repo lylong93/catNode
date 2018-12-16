@@ -1,26 +1,28 @@
 import { controller, get,post,verifyToken} from '../utils/decorator.js'
-import { register,login,getinfo} from '../controls/user.js'
+import { _register,_login,_getinfo} from '../controls/user.js'
 
 @controller('/api/user')
 export class Controller {
 	@post('/register')
 	async register(ctx) {
 		const user = ctx.request.body
-		const data = await register(user)
+		const data = await _register(user)
 		ctx.body = data
 	}
 
 	@post('/login')
 	async login(ctx) {
 		const user = ctx.request.body
-		const data = await login(user)
+		const data = await _login(user)
 		ctx.body = data
 	}
 
-	@post('/getInfo')
+	@get('/getInfo')
+	@verifyToken
 	async getinfo(ctx) {
-		// const {token} = ctx.request.body
-		const data = await getinfo(token)
-		ctx.body = data
+		console.log(ctx.state.user)
+		ctx.body = {
+			name:ctx.state.user
+		}
 	}
 }

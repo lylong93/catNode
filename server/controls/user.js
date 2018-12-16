@@ -6,7 +6,7 @@ import {User} from '../database//models'
 
 const {SUCCESS,ERR,SERERR} = stateConfig
 
-export const register = async (data) => {
+export const _register = async (data) => {
 	const {username,password}  = data	
 	try {
 		let user = await User.findOne({where: {username}})
@@ -18,16 +18,18 @@ export const register = async (data) => {
 			//加盐
 			await query.bcrypt()
 			await query.save()
-			return {state:SUCCESS,msg:'注册成功'}
+			const token = await signToken({username,password})
+			return {state:SUCCESS,msg:'注册成功',token}
 		}else {
 			return {state:ERR,msg:'该用户已存在'}
 		}
 	}catch (err){
+		console.log(err)
 		return {state:SERERR,msg:'注册失败'}
 	}
 }
 
-export const login = async (data) => {
+export const _login = async (data) => {
 	const {username,password}  = data
 	try {
 		let user = await User.findOne({where: {username}})
@@ -49,7 +51,7 @@ export const login = async (data) => {
 	}
 }
 
-export const getinfo = async (data) => {
+export const _getinfo = async (data) => {
 	try {
 		const info = await veriToken(data)
 		const {name} = info
@@ -58,5 +60,4 @@ export const getinfo = async (data) => {
 	catch(err) {
 		return {state:ERR}
 	}
-
 }

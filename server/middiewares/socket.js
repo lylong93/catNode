@@ -5,6 +5,7 @@ export default (server)=> {
 		const io = socket(server)
 		io.on('connection', async (socket)=> {
 			socket.on('shopLogin', async (shopname)=> {
+				console.log('shopLogin')
 				try{
 					let ioId = await SocketId.findOne({
 						where: {name:shopname}
@@ -24,19 +25,24 @@ export default (server)=> {
 							'shopId':shop.id
 						})
 					}
+
 				}catch(err) {
 					console.log(err)
 				}
 			});
 			socket.on('userLogin', async (username)=> {
+				console.log('userLogin')
 				try{
 					let ioId = await SocketId.findOne({
 						where: {name:username}
 					})
+
 					let user = await User.findOne({
-						where:{username}
+						where:{username:username}
 					})
+					console.log(user)
 					if(!ioId) { 
+						console.log('no id')
 						await SocketId.create({
 							name:username,
 							socketid:socket.id,
