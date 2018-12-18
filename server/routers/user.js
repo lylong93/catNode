@@ -20,9 +20,6 @@ export class Controller {
 	@get('/getInfo')
 	@verifyToken
 	async getinfo(ctx) {
-		console.log(ctx.state.user)
-		ctx.body = {
-			name:ctx.state.user
-		}
+		ctx.body = await _getinfo(ctx)
 	}
 }

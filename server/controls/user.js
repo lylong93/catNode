@@ -51,13 +51,16 @@ export const _login = async (data) => {
 	}
 }
 
-export const _getinfo = async (data) => {
-	try {
-		const info = await veriToken(data)
-		const {name} = info
-		return {state:SUCCESS,name}
-	} 
-	catch(err) {
-		return {state:ERR}
+export const _getinfo = async (ctx) => {
+
+	let username = ctx.state.name;
+
+	try{
+		let user = await User.findOne({where: {username}})
+		
+		return {state:SUCCESS,username,userId:user.id}
+		
+	}catch(err) {
+		return {state:SERERR,msg:'err'}
 	}
 }

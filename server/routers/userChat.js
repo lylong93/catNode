@@ -5,13 +5,13 @@ import { getFriendListControl,getMsgListControl,getUserListControl} from '../con
 export class Controller {
 	@get('/friendList')
 	@verifyToken
-	async getlist(ctx,next) {
+	async getlist(ctx) {
 		const data = await getFriendListControl(ctx.state.user)
 		ctx.body = data
 	}
 
 	@post('/msglist')
-	async getMsgList(ctx, next) {
+	async getMsgList(ctx) {
 		const user = ctx.request.body
 		const data = await getMsgListControl(user)
 		ctx.body = data
@@ -19,7 +19,7 @@ export class Controller {
 
 	@get('/userlist')
 	@verifyToken
-	async userlist(ctx,next) {
+	async userlist(ctx) {
 		const data = await getUserListControl()
 		ctx.body = data
 	}
