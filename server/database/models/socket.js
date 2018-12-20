@@ -2,12 +2,15 @@ import  Sequelize  from 'sequelize'
 import db from '../db'
 
 const Socket = db.define('socket', {
-    name: {
+    baseId: {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    socketid:{
-        type: Sequelize.STRING
+    socketId:{
+        type: Sequelize.STRING,
+    },
+    type:{
+        type: Sequelize.STRING, // 0 user  1 shop
     }
 })
 

@@ -19,6 +19,7 @@ export const _getAllUser = async (ctx) => {
 }
 
 export const _getFriend = async (ctx) => {
+	let tokenId = ctx.state.tokenId
 	let {from}= ctx.request.body
 	try {
 		let shop = await Shop.findOne({
@@ -40,15 +41,15 @@ export const _getFriend = async (ctx) => {
 }
 
 export const _msgList = async (ctx) => {
-	console.log(ctx.request.body)
+	let tokenId = ctx.state.tokenId
+	let {from}= ctx.request.body
 	// let shopname= ctx.state.user
 	// console.log(ctx.state.user)
 	// console.log()
 	try {
-		// let msg = await Chat.findAll({
-		// 	where: {shopId:1},
-		// 	// attributes:['msg']
-		// })
+		let chat = await Chat.findOne({
+			where: {shopname:from}
+		})
 		return {state:SUCCESS}
 	}
 	catch(err) {

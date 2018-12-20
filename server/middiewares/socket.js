@@ -4,25 +4,20 @@ import {Shop,User,ShopMsg,UserMsg,Chat,SocketId} from '../database/models'
 export default (server)=> {
 		const io = socket(server)
 		io.on('connection', async (socket)=> {
-			socket.on('shopLogin', async (shopname)=> {
-				console.log('shopLogin')
+			socket.on('shopLogin', async (id)=> {
 				try{
 					let ioId = await SocketId.findOne({
-						where: {name:shopname}
-					})
-					let shop = await Shop.findOne({
-						where:{shopname}
+						where: {baseId:id,type:1}
 					})
 					if(!ioId) { 
 						await SocketId.create({
-							name:shopname,
-							socketid:socket.id,
-							shopId:shop.id
+							baseId:id,
+							socketId:socket.id,
+							type:1
 						})
 					}else {
 						await ioId.update({
-							'socketid':socket.id,
-							'shopId':shop.id
+							'socketId':socket.id,
 						})
 					}
 
@@ -30,28 +25,26 @@ export default (server)=> {
 					console.log(err)
 				}
 			});
-			socket.on('userLogin', async (username)=> {
-				console.log('userLogin')
+			socket.on('userLogin', async (id)=> {
+				// console.log(username)
 				try{
 					let ioId = await SocketId.findOne({
-						where: {name:username}
+						where: {baseId:id,type:0}
 					})
 
 					let user = await User.findOne({
-						where:{username:username}
+						where:{id}
 					})
-					console.log(user)
 					if(!ioId) { 
-						console.log('no id')
 						await SocketId.create({
-							name:username,
+							baseId:id,
 							socketid:socket.id,
-							userId:user.id
+							type:0
 						})
 					}else {
 						await ioId.update({
 							'socketid':socket.id,
-							'userId':user.id
+							'userId':id
 						})
 					}
 				}catch(err) {
@@ -63,13 +56,13 @@ export default (server)=> {
 				const {from,to,msg} = data
 				try{
 					let shop = await Shop.findOne({
-						where: {shopname:from}
+						where: {id:from}
 					})
 					let user = await User.findOne({
-						where: {username:to}
+						where: {id:to}
 					})
 					let ioId = await SocketId.findOne({
-						where: {name:shopname}
+						where: {baseId:id,type:0}
 					})
 					await Chat.create({
 						msg,
@@ -77,7 +70,7 @@ export default (server)=> {
 						shopId:shop.id
 					})
 
-					io.to(ioId.socketid).emit('ShopRecMsg',msg)
+					io.to(ioId.socketid).emit('shopRecMsg',msg)
 				} catch(err) {
 					console.log(err)
 				}			
@@ -87,21 +80,21 @@ export default (server)=> {
 				const {from,to,msg} = data
 				try{
 					let shop = await Shop.findOne({
-						where: {username:from}
+						where: {id:to}
 					})
 					let user = await User.findOne({
-						where: {username:to}
+						where: {id:from}
 					})
 					let ioId = await SocketId.findOne({
-						where: {name:shopname}
+						where: {baseId:id,type:1}
 					})
+					// console.log(user)
 					await Chat.create({
 						msg,
 						userId:user.id,
 						shopId:shop.id
 					})
-
-					io.to(ioId.socketid).emit('UserRecMsg',msg)
+					io.to(ioId.socketid).emit('userRecMsg',msg)
 				} catch(err) {
 					console.log(err)
 				}			

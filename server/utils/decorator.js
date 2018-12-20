@@ -58,7 +58,7 @@ const _token = async (ctx,next) => {
   try {
     const info = await veriToken(authorization)
     console.log(info)
-    ctx.state.name = info.shopname || info.username
+    ctx.state.tokenId = info.id
     await next()
   }
   catch(err) {

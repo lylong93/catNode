@@ -1,51 +1,53 @@
 import { controller, get,post,verifyToken} from '../utils/decorator.js'
-import { _register,_login,_getInfo,_set,_upAvatar,_getUptoken,_addGood} from '../controls/shop.js'
+import { _register,_login,_getInfo,_set,_upAvatar,_getUptoken,_addGood,_upGoodImg} from '../controls/shop.js'
 
 @controller('/api/shop')
 export class Controller {
 	@post('/register')
 	async register(ctx) {
-		const user = ctx.request.body
-		const data = await _register(user)
-		ctx.body = data
+		ctx.body = await _register(ctx)
 	}
 
 	@post('/login')
 	async login(ctx) {
-		const user = ctx.request.body
-		const data = await _login(user)
-		ctx.body = data
+		ctx.body = await _login(ctx)
 	}
 
 	@post('/getInfo')
+	@verifyToken
 	async getInfo(ctx) {
-		const {token} = ctx.request.body
-		const data = await _getInfo(token)
-		ctx.body = data
+		ctx.body = await _getInfo(ctx)
 	}
 	//七牛云 kotken
 	@get('/getUptoken')
+	@verifyToken
 	async getUptoken(ctx) {
-		const data = await _getUptoken()
-		ctx.body = data
+		ctx.body = await _getUptoken(ctx)
 	}
 
 	//上传头像
 	@post('/upAvatar')
+	@verifyToken
 	async upAvatar(ctx) {
-		const user = ctx.request.body
-		const data = await _upAvatar(user)
-		ctx.body = data
+		ctx.body  = await _upAvatar(ctx)
 	}
 
 	@post('/set')
+	@verifyToken
 	async set(ctx) {
-		const data = await _set()
-		ctx.body = data
+		ctx.body = await _set(ctx)
 	}
 	
 	@post('/addgood')
+	@verifyToken
 	async addGood(ctx) {
 		ctx.body = await _addGood(ctx)
 	}
+
+	@post('/upgoodimg')
+	@verifyToken
+	async upGoodImg(ctx) {
+		ctx.body  = await _upGoodImg(ctx)
+	}
+
 }

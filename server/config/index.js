@@ -3,22 +3,9 @@ export const sqlConfig  = {
 	host: 'localhost',
 	name:'cat',
 	account:'root',
-	pwd:'root',
+	pwd:'123456',
 	log:false,
 }
-
-export const db = new Sequelize('cat', 'root', 'root', {
-	host: 'localhost',
-	dialect: 'mysql',
-	pool: {
-		max: 5,
-		min: 0,
-		acquire: 30000,
-		idle: 10000
-	},
-	logging: false,
-	timezone: '+8:00'
-})
 
 export const bcryptConfig = {
 	SaltRounds:10,
