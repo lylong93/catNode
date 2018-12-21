@@ -1,9 +1,10 @@
 import socket from 'socket.io'
-import {Shop,User,ShopMsg,UserMsg,Chat,SocketId} from '../database/models'
-
+import {Shop,User,ShopMsg,UserMsg,Chat,SocketId,Order} from '../database/models'
+import Timer from '@/untils/time'
 export default (server)=> {
 		const io = socket(server)
 		io.on('connection', async (socket)=> {
+			// 商户登录
 			socket.on('shopLogin', async (id)=> {
 				try{
 					let ioId = await SocketId.findOne({
@@ -25,6 +26,7 @@ export default (server)=> {
 					console.log(err)
 				}
 			});
+			// 用户登录
 			socket.on('userLogin', async (id)=> {
 				// console.log(username)
 				try{
@@ -69,7 +71,7 @@ export default (server)=> {
 						userId:user.id,
 						shopId:shop.id
 					})
-
+					// 会话
 					io.to(ioId.socketid).emit('shopRecMsg',msg)
 				} catch(err) {
 					console.log(err)
@@ -94,14 +96,36 @@ export default (server)=> {
 						userId:user.id,
 						shopId:shop.id
 					})
+					// 会话
 					io.to(ioId.socketid).emit('userRecMsg',msg)
 				} catch(err) {
 					console.log(err)
 				}			
 			});
-			//订单
-			// socket.on('disconnect', (data)=> {
-			// 		console.log(data)
-			// });
+			//下订单
+			socket.on('order', async (data)=> {
+			    const time = new Timer()
+				let timedata= JSON.stringify(time)
+				try{
+					let order = await Order.create({
+						orderNumber:'123',
+						totlePice:'100',
+						time:timedata
+					})
+				} catch(err) {
+
+				}
+			});
+			//完成订单
+			socket.on('endOrder', async (data)=> {
+
+				let order = await Order.findOne({
+					where:{orderNumber:'123'}
+				})
+				order.update({
+					time:null
+				})
+				// io.to(ioId.socketid).emit('shopRecMsg',msg)
+			});
 		});	 
 }

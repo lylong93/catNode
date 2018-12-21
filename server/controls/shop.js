@@ -1,9 +1,10 @@
 
 import {signToken} from '../utils/token'
 import {stateConfig} from '../config'
-import {Shop,Good} from '../database//models'
+import {Shop} from '../database//models'
 
 import uploadToken from '../utils/qiniu'
+// import Timer from '../utils/time'
 
 const {SUCCESS,ERR,SERERR} = stateConfig
 
@@ -66,11 +67,15 @@ export const _getInfo = async (ctx) => {
 }
 
 export const _getUptoken = async (ctx) => {
-	return {state:SUCCESS ,uploadToken}
+	// let timer = new Timer(100)
+	// timer.start()
+	return {state:SUCCESS ,uploadToken:uploadToken()}
 }
 
 export const _upAvatar = async (ctx) => {
+
 	const {id,img}  = ctx.request.body
+	
 	try {
 		let shop = await Shop.findOne({where: {id}})
 		let finshed = await shop.update({'avatar':img})
@@ -90,43 +95,6 @@ export const _set = async (ctx) => {
 			'id':goodid,
 			img
 		})
-	}
-	catch(err) {
-		return {state:ERR}
-	}
-}
-export const _addGood = async (ctx) => {
-	
-	let tokenId = ctx.state.tokenId;
-
-	const {name,pice} = ctx.request.body
-	try {
-
-		let shop = await Shop.findOne({where:{id:tokenId}})
-
-		let good = await Good.create({
-			name,
-			pice,
-			shopId:shop.id
-		})
-		return {state:SUCCESS,msg:'添加成功'}
-	}
-	catch(err) {
-		return {state:ERR}
-	}
-	
-}
-export const _upGoodImg = async (ctx) => {
-
-	const {goodId,img}  = ctx.request.body
-
-	try {
-
-		let good = await Good.update({
-			'id':goodId,
-			img
-		})
-		return {state:SUCCESS,msg:'添加成功'}
 	}
 	catch(err) {
 		return {state:ERR}

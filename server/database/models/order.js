@@ -9,6 +9,9 @@ const Order = db.define('order', {
     totlePice:{
         type: Sequelize.STRING,
         allowNull: false
+    },
+    time:{
+        type: Sequelize.JSON,
     }
 })
 
